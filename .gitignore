@@ -1,0 +1,31 @@
+# Machine-specific files with secrets
+custom.sh
+.netrc
+.gitconfig-local
+.npmrc
+
+# Environment files
+.env
+.env.*
+
+# SSH keys
+id_rsa*
+*.pem
+*.key
+
+# AWS credentials
+.aws/
+
+# GPG keys
+*.gpg
+*.asc
+
+# API tokens and credentials
+*token*
+*secret*
+*credential*
+
+# Neovim plugin data (managed by lazy-lock.json)
+.config/nvim/lazy-lock.json
+
+CLAUDE.md

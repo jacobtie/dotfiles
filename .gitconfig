@@ -1,0 +1,22 @@
+[core]
+	autocrlf = false
+	editor = nvim
+	pager = delta
+[init]
+	defaultBranch = main
+[pull]
+	ff = only
+[push]
+	default = current
+[alias]
+	pushu = push -u origin HEAD
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	side-by-side = true
+[merge]
+	conflictstyle = diff3
+[include]
+	path = .gitconfig-local
