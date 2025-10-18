@@ -1,0 +1,10 @@
+# Ignore documentation files
+^/README\.md
+^/CLAUDE\.md
+
+# Ignore git files
+^/\.git
+^/\.gitignore
+
+# Ignore other repository metadata
+^/\.DS_Store
