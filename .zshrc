@@ -1,3 +1,8 @@
+# Source custom configuration if it exists
+if [[ -f "$HOME/custom.sh" ]]; then
+    source "$HOME/custom.sh"
+fi
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -41,6 +46,8 @@ alias tf=terraform
 # Python
 alias pip=pip3
 alias py=python
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
@@ -49,6 +56,7 @@ alias nuke-docker="docker system prune -af && docker volume prune -f"
 alias start-colima="colima start --cpu 4 --memory 8 --disk 60"
 
 # fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(fzf --zsh)
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
   --highlight-line \
@@ -75,7 +83,10 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 "
 
 # Syntax highlighting
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Mac
+[ -f "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Linux
+[ -f "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Zoxide
 eval "$(zoxide init zsh)"
@@ -92,6 +103,9 @@ lt() {
 }
 
 # Bat
+if command -v batcat &> /dev/null; then
+  alias bat=batcat
+fi
 alias cat=bat
 export BAT_THEME="tokyonight_night"
 export PATH="/opt/homebrew/opt/mysql/bin:$PATH"
@@ -151,8 +165,3 @@ sso_check() {
     echo "SSO session expires in $(date -u -j -f "%Y-%m-%dT%H:%M:%SZ" "$SSO_EXPIRES_AT" +'%H:%M:%S')"
   fi
 }
-
-# Source custom configuration if it exists
-if [[ -f "$HOME/custom.sh" ]]; then
-    source "$HOME/custom.sh"
-fi
