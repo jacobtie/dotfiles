@@ -51,6 +51,9 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
+# Golang
+[ -d "/usr/local/go/bin" ] && export PATH=$PATH:/usr/local/go/bin
+
 # Docker
 alias nuke-docker="docker system prune -af && docker volume prune -f"
 alias start-colima="colima start --cpu 4 --memory 8 --disk 60"
