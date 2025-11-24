@@ -12,6 +12,13 @@ return {
         matcher = {
           frecency = true,
         },
+        win = {
+          input = {
+            keys = {
+              ['<c-w>'] = { 'cycle_win', mode = { 'i', 'n' } },
+            },
+          },
+        },
       },
       quickfile = { enabled = true },
       rename = { enabled = true },
@@ -25,7 +32,7 @@ return {
     vim.keymap.set('n', '<leader>sd', function()
       Snacks.picker.diagnostics { hidden = true }
     end, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>gP', function()
+    vim.keymap.set('n', '<leader>gp', function()
       Snacks.picker.gh_pr()
     end, { desc = '[G]it [P]r' })
   end,

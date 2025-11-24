@@ -30,7 +30,7 @@ return {
           changedelete = { text = '~' },
         },
       }
-      vim.keymap.set('n', '<leader>gp', ':Gitsigns preview_hunk<CR>', { desc = '[G]it [P]review' })
+      vim.keymap.set('n', '<leader>gP', ':Gitsigns preview_hunk<CR>', { desc = '[G]it [P]review' })
     end,
   },
   -- It is possible to do file blames with gitsigns but git-blame is much more performant
