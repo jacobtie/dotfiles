@@ -43,4 +43,8 @@ return {
       vim.g.gitblame_message_when_not_committed = 'Uncommitted changes'
     end,
   },
+  {
+    'esmuellert/vscode-diff.nvim',
+    dependencies = { 'MunifTanjim/nui.nvim' },
+  },
 }
