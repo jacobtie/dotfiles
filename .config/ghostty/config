@@ -1,4 +1,5 @@
-font-family = FiraMono Nerd Font Mono
 theme = TokyoNight
+font-family = FiraMono Nerd Font Mono
+font-size = 14
 mouse-hide-while-typing = true
 macos-titlebar-style = hidden
