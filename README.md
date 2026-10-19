@@ -86,17 +86,32 @@ Follow the interactive prompts to customize your prompt appearance.
 
 ## Machine-Specific Configuration
 
-After deploying dotfiles, create these files manually (they are git-ignored for security):
+After deploying dotfiles, create these files manually (they are git-ignored for security).
 
-### Git User Configuration
+`~/.zshrc` and `~/.gitconfig` are intentionally plain local files rather than symlinks. Installers that append to them write to the local copy instead of this repo. The shared config lives in `.config/zsh/zshrc.shared` and `.config/git/config`.
+
+### Shell Entry Point
 
 ```bash
+echo 'source ~/.config/zsh/zshrc.shared' > ~/.zshrc
+```
+
+### Git Configuration
+
+`~/.gitconfig` must exist so that `git config --global` writes there instead of into the shared `~/.config/git/config`:
+
+```bash
+touch ~/.gitconfig
 cat > ~/.gitconfig-local << EOF
 [user]
     name = YOUR_NAME
     email = YOUR_EMAIL@example.com
 EOF
 ```
+
+### Machine-Specific Neovim Plugins
+
+Lazy.nvim specs in `.config/nvim/lua/work/` are loaded only if that directory exists. It is git-ignored, so use it for plugins that should not be shared across machines.
 
 ### Custom Shell Configuration
 
@@ -107,7 +122,7 @@ touch ~/custom.sh
 chmod +x ~/custom.sh
 ```
 
-This file is sourced by `.zshrc` and is not tracked in git.
+This file is sourced by `zshrc.shared` and is not tracked in git.
 
 ### Go Configuration (Optional)
 

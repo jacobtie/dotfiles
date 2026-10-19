@@ -62,7 +62,8 @@ return {
                   local icon = ctx.kind_icon
                   -- if LSP source, check for color derived from documentation
                   if ctx.item.source_name == 'LSP' then
-                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
+                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation,
+                      { kind = ctx.kind })
                     if color_item and color_item.abbr ~= '' then
                       icon = color_item.abbr
                     end
@@ -74,7 +75,8 @@ return {
                   local highlight = 'BlinkCmpKind' .. ctx.kind
                   -- if LSP source, check for color derived from documentation
                   if ctx.item.source_name == 'LSP' then
-                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
+                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation,
+                      { kind = ctx.kind })
                     if color_item and color_item.abbr_hl_group then
                       highlight = color_item.abbr_hl_group
                     end
@@ -100,35 +102,35 @@ return {
       },
     },
   },
-  {
-    'Exafunction/windsurf.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    config = function()
-      require('codeium').setup {
-        enable_cmp_source = false,
-        virtual_text = {
-          enabled = true,
-          key_bindings = {
-            -- Accept the current completion.
-            accept = '<Tab>',
-            -- Accept the next word.
-            accept_word = '<leader><Tab>',
-            -- Accept the next line.
-            accept_line = '<leader><leader><Tab>',
-            -- Clear the virtual text.
-            clear = '<leader>[',
-            -- Cycle to the next completion.
-            next = '<M-]>',
-            -- Cycle to the previous completion.
-            prev = '<M-[>',
-          },
-        },
-      }
-      require('codeium.virtual_text').set_statusbar_refresh(function()
-        require('lualine').refresh()
-      end)
-    end,
-  },
+  -- {
+  --   'Exafunction/windsurf.nvim',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --   },
+  --   config = function()
+  --     require('codeium').setup {
+  --       enable_cmp_source = false,
+  --       virtual_text = {
+  --         enabled = true,
+  --         key_bindings = {
+  --           -- Accept the current completion.
+  --           accept = '<Tab>',
+  --           -- Accept the next word.
+  --           accept_word = '<leader><Tab>',
+  --           -- Accept the next line.
+  --           accept_line = '<leader><leader><Tab>',
+  --           -- Clear the virtual text.
+  --           clear = '<leader>[',
+  --           -- Cycle to the next completion.
+  --           next = '<M-]>',
+  --           -- Cycle to the previous completion.
+  --           prev = '<M-[>',
+  --         },
+  --       },
+  --     }
+  --     require('codeium.virtual_text').set_statusbar_refresh(function()
+  --       require('lualine').refresh()
+  --     end)
+  --   end,
+  -- },
 }

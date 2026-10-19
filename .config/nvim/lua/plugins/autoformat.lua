@@ -22,6 +22,7 @@ return {
       local disable_filetypes = {
         c = true,
         cpp = true,
+        java = true,
         typescript = is_prettier_disabled(bufnr),
         javascript = is_prettier_disabled(bufnr),
         vue = is_prettier_disabled(bufnr),

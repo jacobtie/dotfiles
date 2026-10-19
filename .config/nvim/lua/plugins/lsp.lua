@@ -14,7 +14,7 @@ return {
     dependencies = {
       { 'mason-org/mason.nvim', opts = {} },
       'mason-org/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',    opts = {} },
       'saghen/blink.cmp',
     },
     config = function()
@@ -99,6 +99,7 @@ return {
             },
           },
         },
+
         vtsls = {
           settings = {
             vtsls = {
@@ -107,7 +108,8 @@ return {
                   -- Vue setup
                   {
                     name = '@vue/typescript-plugin',
-                    location = vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server',
+                    location = vim.fn.stdpath 'data' ..
+                        '/mason/packages/vue-language-server/node_modules/@vue/language-server',
                     languages = { 'vue' },
                     configNamespace = 'typescript',
                   },
@@ -115,7 +117,7 @@ return {
               },
             },
           },
-          filetypes = { 'javascript', 'typescript', 'vue' },
+          filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
         },
         vue_ls = {},
         eslint = {
@@ -157,7 +159,9 @@ return {
 
       require('mason').setup()
 
-      local ensure_installed = vim.tbl_keys(servers or {})
+      local ensure_installed = vim.list_extend(vim.tbl_keys(servers or {}), {
+        -- 'jdtls',
+      })
       require('mason-lspconfig').setup { ensure_installed = ensure_installed }
     end,
   },
@@ -194,4 +198,112 @@ return {
       require('ts-error-translator').setup {}
     end,
   },
+  {
+    'scalameta/nvim-metals',
+    ft = { 'scala', 'sbt', 'java' },
+    dependencies = {
+      'saghen/blink.cmp',
+    },
+    opts = function()
+      local metals_config = require('metals').bare_config()
+
+      metals_config.capabilities = require('blink.cmp').get_lsp_capabilities()
+
+      metals_config.settings = {
+        serverVersion = '2.0.0-M10',
+        serverProperties = { '-Xmx4g' },
+        showImplicitArguments = true,
+        showImplicitConversionsAndClasses = true,
+        showInferredType = true,
+        superMethodLensesEnabled = true,
+        excludedPackages = {},
+      }
+
+      metals_config.init_options = {
+        statusBarProvider = 'off',
+      }
+
+      metals_config.on_attach = function(_, bufnr)
+        local map = function(keys, func, desc)
+          vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'Metals: ' .. desc })
+        end
+
+        map('<leader>ws', function()
+          require('metals').hover_worksheet()
+        end, 'Hover Worksheet')
+        map('<leader>mc', '<cmd>MetalsCompileCascade<cr>', 'Compile Cascade')
+        map('<leader>mi', '<cmd>MetalsInfo<cr>', 'Info')
+        map('<leader>md', '<cmd>MetalsRunDoctor<cr>', 'Run Doctor')
+        map('<leader>mo', '<cmd>MetalsOrganizeImports<cr>', 'Organize Imports')
+        map('<leader>msb', '<cmd>MetalsSwitchBuildServer<cr>', 'Switch Build Server')
+      end
+
+      return metals_config
+    end,
+    config = function(self, metals_config)
+      local nvim_metals_group = vim.api.nvim_create_augroup('nvim-metals', { clear = true })
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = self.ft,
+        callback = function()
+          require('metals').initialize_or_attach(metals_config)
+        end,
+        group = nvim_metals_group,
+      })
+    end,
+  }
+  -- {
+  --   'mfussenegger/nvim-jdtls',
+  --   ft = 'java',
+  --   dependencies = { 'mason-org/mason.nvim' },
+  --   config = function()
+  --     local function start_jdtls()
+  --       local jdtls = require('jdtls')
+  --       local jdtls_path = vim.fn.stdpath('data') .. '/mason/packages/jdtls'
+  --       local os_config = vim.fn.has('mac') == 1 and 'config_mac' or 'config_linux'
+  --       local launcher = vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar')
+  --       local root_dir = jdtls.setup.find_root({ 'pom.xml', 'build.gradle', '.git', 'mvnw' })
+  --       local workspace = vim.fn.expand('~/.local/share/nvim/jdtls-workspaces/')
+  --           .. vim.fn.fnamemodify(root_dir or vim.fn.getcwd(), ':t')
+  --
+  --       jdtls.start_or_attach({
+  --         cmd = {
+  --           'java',
+  --           '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+  --           '-Dosgi.bundles.defaultStartLevel=4',
+  --           '-Declipse.product=org.eclipse.jdt.ls.core.product',
+  --           '-Xms256m',
+  --           '-Xmx2g',
+  --           '-XX:+UseG1GC',
+  --           '-XX:GCTimeRatio=4',
+  --           '-XX:AdaptiveSizePolicyWeight=90',
+  --           '-Dsun.zip.disableMemoryMapping=true',
+  --           '-XX:+UseStringDeduplication',
+  --           '--add-modules=ALL-SYSTEM',
+  --           '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+  --           '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+  --           '-jar', launcher,
+  --           '-configuration', jdtls_path .. '/' .. os_config,
+  --           '-data', workspace,
+  --         },
+  --         root_dir = root_dir,
+  --         capabilities = require('blink.cmp').get_lsp_capabilities(),
+  --         settings = {
+  --           java = {
+  --             configuration = { updateBuildConfiguration = 'automatic' },
+  --             maven = { downloadSources = true },
+  --             format = { enabled = false },
+  --           },
+  --         },
+  --         init_options = { bundles = {} },
+  --       })
+  --     end
+  --
+  --     start_jdtls()
+  --     vim.api.nvim_create_autocmd('FileType', {
+  --       pattern = 'java',
+  --       group = vim.api.nvim_create_augroup('jdtls-attach', { clear = true }),
+  --       callback = start_jdtls,
+  --     })
+  --   end,
+  -- }
 }

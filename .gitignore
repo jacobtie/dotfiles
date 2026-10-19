@@ -28,4 +28,7 @@ id_rsa*
 # Neovim plugin data (managed by lazy-lock.json)
 .config/nvim/lazy-lock.json
 
+# Machine-specific Neovim plugins
+.config/nvim/lua/work/
+
 CLAUDE.md

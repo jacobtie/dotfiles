@@ -32,7 +32,7 @@ return {
     vim.keymap.set('n', '<leader>sd', function()
       Snacks.picker.diagnostics { hidden = true }
     end, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>gp', function()
+    vim.keymap.set('n', '<leader>gP', function()
       Snacks.picker.gh_pr()
     end, { desc = '[G]it [P]r' })
   end,

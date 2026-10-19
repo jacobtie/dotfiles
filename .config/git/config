@@ -19,4 +19,4 @@
 [merge]
 	conflictstyle = diff3
 [include]
-	path = .gitconfig-local
+	path = ~/.gitconfig-local

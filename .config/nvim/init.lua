@@ -20,8 +20,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local spec = { { import = 'plugins' } }
+if vim.uv.fs_stat(vim.fn.stdpath 'config' .. '/lua/work') then
+  table.insert(spec, { import = 'work' })
+end
+
 require('lazy').setup {
-  spec = {
-    { import = 'plugins' },
-  },
+  spec = spec,
 }
