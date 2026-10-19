@@ -159,9 +159,7 @@ return {
 
       require('mason').setup()
 
-      local ensure_installed = vim.list_extend(vim.tbl_keys(servers or {}), {
-        -- 'jdtls',
-      })
+      local ensure_installed = vim.tbl_keys(servers or {})
       require('mason-lspconfig').setup { ensure_installed = ensure_installed }
     end,
   },
@@ -250,60 +248,5 @@ return {
         group = nvim_metals_group,
       })
     end,
-  }
-  -- {
-  --   'mfussenegger/nvim-jdtls',
-  --   ft = 'java',
-  --   dependencies = { 'mason-org/mason.nvim' },
-  --   config = function()
-  --     local function start_jdtls()
-  --       local jdtls = require('jdtls')
-  --       local jdtls_path = vim.fn.stdpath('data') .. '/mason/packages/jdtls'
-  --       local os_config = vim.fn.has('mac') == 1 and 'config_mac' or 'config_linux'
-  --       local launcher = vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar')
-  --       local root_dir = jdtls.setup.find_root({ 'pom.xml', 'build.gradle', '.git', 'mvnw' })
-  --       local workspace = vim.fn.expand('~/.local/share/nvim/jdtls-workspaces/')
-  --           .. vim.fn.fnamemodify(root_dir or vim.fn.getcwd(), ':t')
-  --
-  --       jdtls.start_or_attach({
-  --         cmd = {
-  --           'java',
-  --           '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-  --           '-Dosgi.bundles.defaultStartLevel=4',
-  --           '-Declipse.product=org.eclipse.jdt.ls.core.product',
-  --           '-Xms256m',
-  --           '-Xmx2g',
-  --           '-XX:+UseG1GC',
-  --           '-XX:GCTimeRatio=4',
-  --           '-XX:AdaptiveSizePolicyWeight=90',
-  --           '-Dsun.zip.disableMemoryMapping=true',
-  --           '-XX:+UseStringDeduplication',
-  --           '--add-modules=ALL-SYSTEM',
-  --           '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-  --           '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-  --           '-jar', launcher,
-  --           '-configuration', jdtls_path .. '/' .. os_config,
-  --           '-data', workspace,
-  --         },
-  --         root_dir = root_dir,
-  --         capabilities = require('blink.cmp').get_lsp_capabilities(),
-  --         settings = {
-  --           java = {
-  --             configuration = { updateBuildConfiguration = 'automatic' },
-  --             maven = { downloadSources = true },
-  --             format = { enabled = false },
-  --           },
-  --         },
-  --         init_options = { bundles = {} },
-  --       })
-  --     end
-  --
-  --     start_jdtls()
-  --     vim.api.nvim_create_autocmd('FileType', {
-  --       pattern = 'java',
-  --       group = vim.api.nvim_create_augroup('jdtls-attach', { clear = true }),
-  --       callback = start_jdtls,
-  --     })
-  --   end,
-  -- }
+  },
 }

@@ -2,19 +2,6 @@ return {
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
-    -- local function windsurf_status()
-    --   local status = require('codeium.virtual_text').status()
-    --   if status.state == 'idle' then
-    --     return ''
-    --   end
-    --   if status.state == 'waiting' then
-    --     return 'Loading...'
-    --   end
-    --   if status.state == 'completions' and status.total > 0 then
-    --     return string.format('%d/%d', status.current, status.total)
-    --   end
-    --   return ''
-    -- end
     require('lualine').setup {
       options = {
         icons_enabled = true,
@@ -38,7 +25,6 @@ return {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { { 'filename', path = 1 } },
-        -- lualine_x = { windsurf_status },
         lualine_y = { 'filetype', 'lsp_status' },
         lualine_z = { 'progress', 'location' },
       },
