@@ -22,16 +22,16 @@ return {
         group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
         callback = function(event)
           local Snacks = require 'snacks'
-          vim.keymap.set('n', 'gd', Snacks.picker.lsp_definitions, { desc = '[G]oto [D]efinition' })
-          vim.keymap.set('n', 'gD', Snacks.picker.lsp_declarations, { desc = '[G]oto [D]eclaration' })
-          vim.keymap.set('n', 'gr', Snacks.picker.lsp_references, { desc = '[G]oto [R]eferences' })
-          vim.keymap.set('n', 'gI', Snacks.picker.lsp_implementations, { desc = '[G]oto [I]mplementation' })
-          vim.keymap.set('n', 'gt', Snacks.picker.lsp_type_definitions, { desc = '[G]oto [T]ype Definition' })
-          vim.keymap.set('n', 'gs', Snacks.picker.lsp_symbols, { desc = '[D]ocument [S]ymbols' })
-          vim.keymap.set('n', 'gW', Snacks.picker.lsp_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
-          vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame' })
-          vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
+          vim.keymap.set('n', 'gd', Snacks.picker.lsp_definitions, { buffer = event.buf, desc = '[G]oto [D]efinition' })
+          vim.keymap.set('n', 'gD', Snacks.picker.lsp_declarations, { buffer = event.buf, desc = '[G]oto [D]eclaration' })
+          vim.keymap.set('n', 'gr', Snacks.picker.lsp_references, { buffer = event.buf, desc = '[G]oto [R]eferences' })
+          vim.keymap.set('n', 'gI', Snacks.picker.lsp_implementations, { buffer = event.buf, desc = '[G]oto [I]mplementation' })
+          vim.keymap.set('n', 'gt', Snacks.picker.lsp_type_definitions, { buffer = event.buf, desc = '[G]oto [T]ype Definition' })
+          vim.keymap.set('n', 'gs', Snacks.picker.lsp_symbols, { buffer = event.buf, desc = '[D]ocument [S]ymbols' })
+          vim.keymap.set('n', 'gW', Snacks.picker.lsp_workspace_symbols, { buffer = event.buf, desc = '[W]orkspace [S]ymbols' })
+          vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = event.buf, desc = '[R]e[n]ame' })
+          vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = event.buf, desc = '[C]ode [A]ction' })
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'Hover Documentation' })
 
           -- Highlight references on cursor hold
           local client = vim.lsp.get_client_by_id(event.data.client_id)
