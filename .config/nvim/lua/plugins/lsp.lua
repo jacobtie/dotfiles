@@ -208,13 +208,17 @@ return {
       metals_config.capabilities = require('blink.cmp').get_lsp_capabilities()
 
       metals_config.settings = {
-        serverVersion = '2.0.0-RC1',
-        serverProperties = { '-Xmx4g' },
-        showImplicitArguments = true,
-        showImplicitConversionsAndClasses = true,
-        showInferredType = true,
-        superMethodLensesEnabled = true,
-        excludedPackages = {},
+        metals = {
+          serverVersion = '2.0.0-RC1',
+          serverProperties = { '-Xmx4g' },
+          preferredBuildServer = 'MBT',
+          autoImportBuild = 'initial',
+          showImplicitArguments = true,
+          showImplicitConversionsAndClasses = true,
+          showInferredType = true,
+          superMethodLensesEnabled = true,
+          excludedPackages = {},
+        },
       }
 
       metals_config.init_options = {
