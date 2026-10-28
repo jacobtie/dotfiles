@@ -16,7 +16,7 @@ Follow these steps to set up a new Mac with these dotfiles.
 
 ```bash
 # Shell and terminal tools
-brew install stow git neovim tmux
+brew install stow git neovim tree-sitter-cli tmux
 
 # Modern CLI replacements
 brew install fzf zoxide bat lsd ripgrep delta
@@ -154,6 +154,8 @@ aws configure sso
 ## Neovim Setup
 
 Neovim plugins will auto-install on first launch via Lazy.nvim. See `.config/nvim/README.md` for more details.
+
+Treesitter parsers are compiled locally by `nvim-treesitter`, which needs `tree-sitter-cli` (installed above, not from npm) and a C compiler. The configured parsers install in the background on first launch, and parsers for other languages install the first time a file of that type is opened.
 
 ## Updating Dotfiles
 

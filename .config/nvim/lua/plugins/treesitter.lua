@@ -1,43 +1,70 @@
+local parsers = {
+  'bash',
+  'c',
+  'diff',
+  'html',
+  'lua',
+  'luadoc',
+  'markdown',
+  'vim',
+  'vimdoc',
+  'javascript',
+  'typescript',
+  'json',
+  'yaml',
+  'toml',
+  'css',
+  'scss',
+  'go',
+  'sql',
+  'java',
+}
+
+local function start_treesitter(bufnr, lang)
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
+  if not pcall(vim.treesitter.start, bufnr, lang) then
+    return
+  end
+  if vim.treesitter.query.get(lang, 'indents') then
+    vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end
+end
+
 return {
   {
     'nvim-treesitter/nvim-treesitter',
     lazy = false,
     build = ':TSUpdate',
-    opts = {
-      ensure_installed = {
-        'bash',
-        'c',
-        'diff',
-        'html',
-        'lua',
-        'luadoc',
-        'markdown',
-        'vim',
-        'vimdoc',
-        'javascript',
-        'typescript',
-        'json',
-        'yaml',
-        'toml',
-        'css',
-        'scss',
-        'go',
-        'sql',
-        'java',
-      },
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    },
-    config = function(_, opts)
-      require('nvim-treesitter.install').prefer_git = true
-      require('nvim-treesitter.config').setup(opts)
+    config = function()
+      local treesitter = require 'nvim-treesitter'
+      treesitter.install(parsers)
+
+      local available = {}
+      for _, lang in ipairs(treesitter.get_available()) do
+        available[lang] = true
+      end
+
+      vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('treesitter-start', { clear = true }),
+        callback = function(event)
+          local lang = vim.treesitter.language.get_lang(event.match)
+          if not lang then
+            return
+          end
+          if vim.treesitter.language.add(lang) then
+            start_treesitter(event.buf, lang)
+            return
+          end
+          if not available[lang] then
+            return
+          end
+          treesitter.install(lang):await(vim.schedule_wrap(function()
+            start_treesitter(event.buf, lang)
+          end))
+        end,
+      })
     end,
   },
   {
