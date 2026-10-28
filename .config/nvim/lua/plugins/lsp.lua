@@ -208,7 +208,7 @@ return {
       metals_config.capabilities = require('blink.cmp').get_lsp_capabilities()
 
       metals_config.settings = {
-        serverVersion = '2.0.0-M10',
+        serverVersion = '2.0.0-RC1',
         serverProperties = { '-Xmx4g' },
         showImplicitArguments = true,
         showImplicitConversionsAndClasses = true,
